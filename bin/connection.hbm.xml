@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+
+	<class name="com.att.paas.lj.webextract.db.LogLocation" proxy="com.att.paas.lj.webextract.db.LogLocation"
+		table="loglocation">
+		<id name="idloglocation" column="idloglocation" type="int"
+			unsaved-value="0">
+			<generator class="increment" />
+		</id>
+
+		<property name="idhostconnection" column="idhostconnection" />
+		<property name="directoryname" column="directoryname" />
+	</class>
+
+	<class name="com.att.paas.lj.webextract.db.HostConnection" proxy="com.att.paas.lj.webextract.db.HostConnection"
+		table="hostconnection">
+		<id name="idhostconnection" column="idhostconnection" type="int"
+			unsaved-value="0">
+			<generator class="increment" />
+		</id>
+
+		<property name="host" column="host" />
+		<property name="username" column="username" />
+		<property name="password" column="password" />
+		<list name="logLocations" table="loglocation" inverse="true"
+			lazy="true" fetch="join" cascade="save-update">
+			<key column="idhostconnection" />
+			<index column="idloglocation" />
+			<one-to-many class="com.att.paas.lj.webextract.db.LogLocation" />
+		</list>
+	</class>
+
+    <class name="com.att.paas.lj.webextract.db.DataUsage" proxy="com.att.paas.lj.webextract.db.DataUsage"
+        table="datausage">
+        <id name="idDataUsage" column="iddatausage" type="int"
+            unsaved-value="0">
+            <generator class="increment" />
+        </id>
+
+        <property name="idTenant" column="idtenant" type="int" />
+        <property name="intervalStart" column="intervalstart" type="timestamp" />
+        <property name="intervalDuration" column="intervalduration" type="int" />
+        <property name="numberOfBytes" column="numberofbytes" type="int" />
+    </class>
+
+</hibernate-mapping>  
